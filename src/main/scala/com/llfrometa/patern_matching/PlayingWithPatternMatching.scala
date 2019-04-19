@@ -4,29 +4,24 @@ import scala.util.{Random, Try}
 
 object PlayingWithPatternMatching extends App {
 
-  val ZERO = "zero"
-  val ONE  = "one"
-  val TWO  = "two"
-  val MANY = "many"
-
   val number: Int    = Random.nextInt(6)
   val numberAsString = numberAsLiteralString(number)
-  val numberByString = matchingNumberByString(number.toString)
+  val numberByString = matchingNumberByString("6")
 
   println(s"==>  numberAsLiteralString: $numberAsString")
   println(s"==> matchingNumberByString: $numberByString")
 
   def numberAsLiteralString(value: Int): String = value match {
-    case 0 => ZERO
-    case 1 => ONE
-    case 2 => TWO
-    case _ => MANY
+    case 0 => "zero"
+    case 1 => "one"
+    case 2 => "two"
+    case _ => "many"
   }
 
   def matchingNumberByString(value: String): Int = value match {
-    case ZERO   => 0
-    case ONE    => 1
-    case TWO    => 2
+    case "zero" => 0
+    case "one"  => 1
+    case "two"  => 2
     case Int(i) => i
     case _      => throw new RuntimeException()
   }
@@ -80,8 +75,15 @@ object PlayingWithPatternMatching extends App {
     case (a, b, c, _) => s"A 4 elem tuple: got $a, $b, $c and more element"
   }
 
+  val maybeValue = Option(2)
+  val result8 = maybeValue match {
+    case Some(value) if value == 2 => s"My value is `2`"
+    case Some(value)               => s"My value is $value"
+    case None if value == 2        => s"I have not value"
+  }
+
   println(
-    s"==> (result, result2, result3, result4, result5, result6, result7) = ($result, $result2, $result3, $result4, $result5, $result6, $result7)")
+    s"==> (result, result2, result3, result4, result5, result6, result7, result8) = ($result, $result2, $result3, $result4, $result5, $result6, $result7, $result8)")
 
   object Int {
     def unapply(arg: String): Option[Int] = Try(arg.toInt).toOption
